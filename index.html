@@ -73,13 +73,16 @@
                     recognition.interimResults = true; // Enable interim results
                     recognition.continuous = true;
                     recognition.onstart = function(){
-                        console.log("voice is activated, you may now speak");
+                        recognizedText.textContent = 'Listening...';
                     }
                     // recognition.onresult = event => {
                     //     const transcript = event.results[event.results.length - 1][0].transcript + ' ';
                     //     recognizedText.textContent = 'Recognized Text: ' + transcript;
                     // };
 
+                    recognition.onerror = (event) => {
+                        recognizedText.textContent = 'Recognized Text: ' + event.error;
+                    };
 
                     recognition.onresult = event => {
                         let transcript = '';
@@ -90,11 +93,6 @@
                             }
                         }
                         recognizedText.textContent = 'Recognized Text: ' + transcript;
-                    };
-
-                    recognition.onerror = (event) => {
-                        // diagnostic.textContent = `Error occurred in recognition: ${event.error}`;
-                        document.getElementById('txt').innerHTML = event.error;
                     };
 
                     recognition.start();
@@ -119,6 +117,7 @@
                 stopRecordingButton.disabled = true;
             });
         });
+        
 
 
     </script>
