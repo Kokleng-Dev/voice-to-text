@@ -12,6 +12,7 @@
     <button id="startRecording">Start Recording</button>
     <button id="stopRecording" disabled>Stop Recording</button>
     <p id="recognizedText"></p>
+    <p id="txt"></p>
     <div id="unsupportedMessage" style="display: none;">
         Voice-to-text is not supported in your browser.
     </div>
@@ -66,24 +67,29 @@
                     stopRecordingButton.disabled = false;
 
                     // Initialize voice recognition
-                    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    recognition = new SpeechRecognition();
                     recognition.lang = 'km-KH'; // Khmer language code
                     recognition.interimResults = true; // Enable interim results
                     recognition.continuous = true;
-
+                    recognition.onstart = function(){
+                        console.log("voice is activated, you may now speak");
+                    }
                     // recognition.onresult = event => {
-                    //     let transcript = '';
-                    //     for (let i = 0; i < event.results.length; i++) {
-                    //         if (event.results[i].isFinal) {
-                    //             transcript += event.results[i][0].transcript + ' ';
-                    //         }
-                    //     }
+                    //     const transcript = event.results[event.results.length - 1][0].transcript + ' ';
                     //     recognizedText.textContent = 'Recognized Text: ' + transcript;
                     // };
+
+
                     recognition.onresult = event => {
-                        const transcript = event.results[event.results.length - 1][0].transcript + ' ';
+                        let transcript = '';
+                        document.getElementById('txt').innerHTML = event.results.length;
+                        for (let i = 0; i < event.results.length; i++) {
+                            if (event.results[i].isFinal) {
+                                transcript += event.results[i][0].transcript + ' ';
+                            }
+                        }
                         recognizedText.textContent = 'Recognized Text: ' + transcript;
-                        alert(transcript);
                     };
 
                     recognition.start();
