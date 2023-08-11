@@ -63,7 +63,7 @@
                     // Initialize voice recognition
                     recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                     recognition.lang = 'km-KH'; // Khmer language code
-                    //   recognition.interimResults = true; // Enable interim results
+                      recognition.interimResults = true; // Enable interim results
                     recognition.continuous = true;
 
                     recognition.onresult = event => {
