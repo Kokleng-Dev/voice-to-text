@@ -83,6 +83,7 @@
                     recognition.onresult = event => {
                         const transcript = event.results[event.results.length - 1][0].transcript + ' ';
                         recognizedText.textContent = 'Recognized Text: ' + transcript;
+                        alert(transcript);
                     };
 
                     recognition.start();
@@ -95,7 +96,6 @@
                     }
                 } catch (error) {
                     console.error('Error accessing microphone:', error);
-                    alert(error);
                 }
             });
 
