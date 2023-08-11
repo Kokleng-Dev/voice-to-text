@@ -111,12 +111,9 @@
             });
 
             stopRecordingButton.addEventListener('click', () => {
-                if (mediaRecorder.state === 'recording') {
-                    mediaRecorder.stop();
-                }
-                if (recognition) {
-                    recognition.stop();
-                }
+ 
+                mediaRecorder.stop();
+                recognition.stop();
 
                 startRecordingButton.disabled = false;
                 stopRecordingButton.disabled = true;
