@@ -12,7 +12,9 @@
     <button id="startRecording">Start Recording</button>
     <button id="stopRecording" disabled>Stop Recording</button>
     <p id="recognizedText"></p>
-    <p id="test"></p>
+    <div id="unsupportedMessage" style="display: none;">
+        Voice-to-text is not supported in your browser.
+    </div>
     <audio id="audioPlayer" controls style="display: none;"></audio>
     <a id="downloadAudio" style="display: none;">Download Audio</a>
 
@@ -26,6 +28,7 @@
             const recognizedText = document.getElementById('recognizedText');
             const audioPlayer = document.getElementById('audioPlayer');
             const downloadAudioLink = document.getElementById('downloadAudio');
+            const unsupportedMessage = document.getElementById('unsupportedMessage');
 
             let mediaRecorder;
             let audioChunks = [];
@@ -65,7 +68,7 @@
                     // Initialize voice recognition
                     recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                     recognition.lang = 'km-KH'; // Khmer language code
-                      recognition.interimResults = true; // Enable interim results
+                    recognition.interimResults = true; // Enable interim results
                     recognition.continuous = true;
 
                     recognition.onresult = event => {
@@ -76,10 +79,16 @@
                             }
                         }
                         recognizedText.textContent = 'Recognized Text: ' + transcript;
-                        document.getElementById('test').innerText = transcript;
                     };
 
                     recognition.start();
+
+                    if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) {
+                        startRecordingButton.disabled = true;
+                        stopRecordingButton.disabled = true;
+                        unsupportedMessage.style.display = 'block';
+                        return;
+                    }
                 } catch (error) {
                     console.error('Error accessing microphone:', error);
                 }
