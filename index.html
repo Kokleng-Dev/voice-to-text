@@ -12,6 +12,7 @@
     <button id="startRecording">Start Recording</button>
     <button id="stopRecording" disabled>Stop Recording</button>
     <p id="recognizedText"></p>
+    <p id="test"></p>
     <audio id="audioPlayer" controls style="display: none;"></audio>
     <a id="downloadAudio" style="display: none;">Download Audio</a>
 
@@ -75,6 +76,7 @@
                             }
                         }
                         recognizedText.textContent = 'Recognized Text: ' + transcript;
+                        document.getElementById('test').innerText = transcript;
                     };
 
                     recognition.start();
