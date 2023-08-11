@@ -92,6 +92,11 @@
                         recognizedText.textContent = 'Recognized Text: ' + transcript;
                     };
 
+                    recognition.onerror = (event) => {
+                        // diagnostic.textContent = `Error occurred in recognition: ${event.error}`;
+                        document.getElementById('txt').innerHTML = event.error;
+                    };
+
                     recognition.start();
 
                     if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) {
